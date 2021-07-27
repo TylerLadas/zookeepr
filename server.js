@@ -13,6 +13,9 @@ const PORT = process.env.PORT || 3001;
 // instantiate server
 const app = express();
 
+// public folder middleware
+app.use(express.static('public'));
+
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
@@ -123,6 +126,26 @@ function validateAnimal(animal) {
   }
   return true;
 }
+
+// route to index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// route to animals.html
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+//route to zookeepers.html
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// wildcard route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
 
 // make server listen for requests
 app.listen(PORT, () => {
